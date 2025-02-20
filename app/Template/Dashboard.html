@@ -19,14 +19,37 @@
          OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin=
          "anonymous">
     </head>
-
     <body>
-        <h1>Admin Dashboard</h1>
+        <h1>Blog Dashboard</h1>
         <a href="/create">Create New Post</a>
         <ul>
             {% for post in posts %}
-                <li><a href="/post/{{ post['date'] }}">{{ post['title'] }}</a> | <a href="/edit/{{ post['date'] }}">Edit</a> | <a href="/delete/{{ post['date'] }}">Delete</a></li>
+            <li>
+                <a href="/post/{{ post.id }}">{{ post.title }}</a> - <a href="/edit/{{ post.id }}">Edit</a> - <a href="/delete/{{ post.id }}">Delete</a>
+            </li>
             {% endfor %}
         </ul>
+    
+        <h2>Create New Post</h2>
+        <form method="post" action="/create">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title"><br>
+            <label for="author">Author:</label><br>
+            <input type="text" id="author" name="author"><br>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content"></textarea><br>
+            <input type="submit" value="Create">
+        </form>
+    
+        <h2>Edit Post</h2>
+        <form method="post" action="/edit/{{ post.id }}">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" value="{{ post.title }}"><br>
+            <label for="author">Author:</label><br>
+            <input type="text" id="author" name="author" value="{{ post.author }}"><br>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content">{{ post.content }}</textarea><br>
+            <input type="submit" value="Update">
+        </form>
     </body>
     </html>
