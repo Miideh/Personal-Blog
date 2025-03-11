@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+ <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" 
+         content="IE=edge">
+         <meta name="viewport" content="width=device-width">
+        <title>Post</title>
+    </head>
+    <body>
+        <h1>{{ post.title }}</h1>
+        <p>By {{ post.author }} on {{ post.date_published.strftime("%Y-%m-%d %H:%M") }}</p>
+        {% if post.image_url %}
+            <img src="{{ post.image_url }}" alt="Post image">
+        {% endif %}
+        <div>{{ post.content }}</div>
+        <a href="/">Back to home</a>
+    </body>
+    </html>
+    

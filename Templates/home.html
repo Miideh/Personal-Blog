@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+ <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" 
+         content="IE=edge">
+         <meta name="viewport" content="width=device-width">
+        <title>Home</title>
+    </head>
+    <body>
+        <h1>Blog Posts</h1>
+        {% for post in posts %}
+            <div>
+                <h2><a href="/post/{{ post.id }}">{{ post.title }}</a></h2>
+                {% if post.image_url %}
+                    <img src="{{ post.image_url }}" alt="Post image" width="200">
+                {% endif %}
+                <p>{{ post.excerpt }}</p>
+            </div>
+        {% endfor %}
+        <a href="/dashboard">Go to Dashboard</a>
+    </body>
+    </html>
