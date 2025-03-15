@@ -11,7 +11,7 @@
         <h1>Blog Posts</h1>
         {% for post in posts %}
             <div>
-                <h2><a href="/post/{{ post.id }}">{{ post.title }}</a></h2>
+                <h2><a href="/post/{{ post['_id'] }}">Read More</a></h2>
                 {% if post.image_url %}
                     <img src="{{ post.image_url }}" alt="Post image" width="200">
                 {% endif %}

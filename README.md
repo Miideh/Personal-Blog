@@ -15,7 +15,7 @@ Features
 
 Technologies Used
     - Python
-    - BeanieODM
+    - MongoDB
     - FastAPI
 
 Project Structure
@@ -45,7 +45,7 @@ Installation and Setup
 
 2. Set Up a Virtual Environment
     Create a virtual environment to manage your project dependencies effectively:
-    python -m venv env
+    python3 -m venv env
 
     Activate the virtual environment:
     source venv\Scripts\activate
@@ -54,7 +54,7 @@ Installation and Setup
     pip install -r requirements.txt
 
 4. Configure the Database
-    Your blog uses BeanieODM for data storage.
+    Your blog uses MongoDB for data storage.
 
 5. Run the Blog Application
     python main.py
@@ -72,7 +72,3 @@ How to Use
 2. Manage Blog Posts:
    - Visit the dashboard to create new posts or edit existing ones.
    - Delete any post that is no longer needed.
-
-Future Improvements
-
- convert the blog application to make use of MongoDB instead of BeanieODM
