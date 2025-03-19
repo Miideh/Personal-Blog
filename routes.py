@@ -4,10 +4,16 @@ from fastapi.templating import Jinja2Templates
 from datetime import datetime
 from typing import Optional
 from bson import ObjectId, errors as bson_errors
-from connection import posts_collection
+from passlib.context import CryptContext
+from fastapi.responses import RedirectResponse
+from connection import posts_collection , users_collection
+
+
+
 
 router = APIRouter()
 templates = Jinja2Templates(directory="Templates")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -109,4 +115,27 @@ async def delete_post_submit(request: Request, id: str):
 
     posts = list(posts_collection.find())
     return templates.TemplateResponse("dashboard.html", {"request": request, "posts": posts})
+@router.get("/signup", response_class=HTMLResponse)
+async def signup_form(request: Request):
+    return templates.TemplateResponse("signup.html", {"request": request})
+
+@router.post("/signup", response_class=HTMLResponse)
+async def signup_submit(request: Request, username: str = Form(...), password: str = Form(...)):
+    hashed_password = pwd_context.hash(password)
+    user = {"username": username, "hashed_password": hashed_password}
+    if users_collection.find_one({"username": username}):
+        raise HTTPException(status_code=400, detail="Username already exists")
+    users_collection.insert_one(user)
+    return RedirectResponse(url="/signin", status_code=302)
+
+@router.get("/signin", response_class=HTMLResponse)
+async def signin_form(request: Request):
+    return templates.TemplateResponse("signin.html", {"request": request})
+
+@router.post("/signin", response_class=HTMLResponse)
+async def signin_submit(request: Request, username: str = Form(...), password: str = Form(...)):
+    user = users_collection.find_one({"username": username})
+    if not user or not pwd_context.verify(password, user["hashed_password"]):
+        raise HTTPException(status_code=400, detail="Invalid username or password")
+    return templates.TemplateResponse("dashboard.html", {"request": request, "posts": list(posts_collection.find())})
 
